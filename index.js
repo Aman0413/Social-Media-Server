@@ -8,6 +8,7 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const cloudinary = require("cloudinary").v2;
+const commentRouter = require("./routers/commentRouter");
 
 dotenv.config("./.env");
 
@@ -25,7 +26,7 @@ const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(morgan("common"));
 app.use(cookieParser());
-let origin = "http://localhost:3001";
+let origin = "http://localhost:3000";
 console.log("here env", process.env.NODE_ENV);
 if (process.env.NODE_ENV === "production") {
   origin = process.env.CLIENT_ORIGIN;
@@ -40,6 +41,7 @@ app.use(
 app.use("/auth", authRouter);
 app.use("/posts", postsRouter);
 app.use("/user", userRouter);
+app.use("/comment", commentRouter);
 app.get("/", (req, res) => {
   res.status(200).send("OK from Server");
 });
