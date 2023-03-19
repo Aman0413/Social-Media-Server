@@ -26,7 +26,7 @@ const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(morgan("common"));
 app.use(cookieParser());
-let origin = "http://localhost:3000";
+let origin = "https://cozy-unicorn-f28a5c.netlify.app";
 console.log("here env", process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === "production") {
