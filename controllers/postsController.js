@@ -6,18 +6,23 @@ const { mapPostOutput } = require("../utils/Utils");
 
 const createPostController = async (req, res) => {
   try {
+    cloudinary.config({
+      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+      api_key: process.env.CLOUDNARY_API_KEY,
+      api_secret: process.env.CLOUDNARY_API_SECRET,
+    });
     const { caption, postImg } = req.body;
-
     if (!caption || !postImg) {
       return res.send(error(400, "Caption and postImg are required"));
     }
+
     const cloudImg = await cloudinary.uploader.upload(postImg, {
       folder: "postImg",
     });
 
     const owner = req._id;
 
-    const user = await User.findById(req._id);
+    const user = await User.findById(owner);
 
     const post = await Post.create({
       owner,
@@ -30,9 +35,6 @@ const createPostController = async (req, res) => {
 
     user.posts.push(post._id);
     await user.save();
-
-    console.log("user", user);
-    console.log("post", post);
 
     return res.json(success(200, { post }));
   } catch (e) {
