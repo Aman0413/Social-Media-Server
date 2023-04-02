@@ -167,7 +167,6 @@ const getMyInfo = async (req, res) => {
 const updateUserProfile = async (req, res) => {
   try {
     const { name, bio, userImg } = req.body;
-
     const user = await User.findById(req._id);
 
     if (name) {
@@ -177,6 +176,11 @@ const updateUserProfile = async (req, res) => {
       user.bio = bio;
     }
     if (userImg) {
+      cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDNARY_API_KEY,
+        api_secret: process.env.CLOUDNARY_API_SECRET,
+      });
       const cloudImg = await cloudinary.uploader.upload(userImg, {
         folder: "userProfile",
       });
