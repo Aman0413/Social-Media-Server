@@ -95,7 +95,10 @@ const deletePost = async (req, res) => {
     const { postId } = req.body;
     const curUserId = req._id;
 
+    console.log("postid", postId);
+    console.log("user ", curUserId);
     const post = await Post.findById(postId);
+
     const curUser = await User.findById(curUserId);
     if (!post) {
       return res.send(error(404, "Post not found"));
