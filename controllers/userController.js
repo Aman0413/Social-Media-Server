@@ -219,6 +219,22 @@ const getUserProfile = async (req, res) => {
   }
 };
 
+const findByName = async (req, res) => {
+  const { userName } = req.body;
+
+  if (!userName) {
+    return res.send(error(400, "Search term is required"));
+  }
+
+  const user = await User.findOne({
+    name: { $regex: userName, $options: "i" },
+  });
+
+  if (!user) {
+    return res.send(error(400, "User not found"));
+  }
+  return res.send(success(200, user));
+};
 module.exports = {
   followOrUnfollowUserController,
   getPostsOfFollowing,
@@ -228,4 +244,5 @@ module.exports = {
   getMyInfo,
   updateUserProfile,
   getUserProfile,
+  findByName,
 };

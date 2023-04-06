@@ -12,8 +12,8 @@ const createPostController = async (req, res) => {
       api_secret: process.env.CLOUDNARY_API_SECRET,
     });
     const { caption, postImg } = req.body;
-    if (!caption || !postImg) {
-      return res.send(error(400, "Caption and postImg are required"));
+    if (!postImg) {
+      return res.send(error(400, "Post Image is  required"));
     }
 
     const cloudImg = await cloudinary.uploader.upload(postImg, {
