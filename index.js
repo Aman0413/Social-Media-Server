@@ -25,6 +25,7 @@ const app = express();
 //middlewares
 app.use(express.json({ limit: "10mb" }));
 app.use(morgan("common"));
+
 app.use(cookieParser());
 let origin = "http://localhost:3000";
 
